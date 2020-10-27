@@ -1,29 +1,32 @@
 import React from 'react';
 import Header from "./Header";
-import * as axios from "axios";
 import {connect} from "react-redux";
-import {setAuthUserData} from "../../redux/auth-reducer";
+import {auth} from "../../redux/auth-reducer";
+import { toggleFollowingProgress } from './../../redux/users-reducer';
+import Preloader from './../common/Preloader/Preloader';
 
 class HeaderContainer extends React.Component {
+    
     componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            withCredentials: true
-        })
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    let {id, login, email} = response.data.data;
-                    this.props.setAuthUserData(id, email, login);
-                }
-            });
+        this.props.auth(this.props.id,this.props.email, this.props.login);
+   
     }
-
-    render() {
-        return <Header {...this.props} />
+ 
+    render()
+   
+    {console.log("isFetching",this.props.isFetching);
+        return <>
+            
+            { this.props.isFetching ? <Preloader /> : <Header {...this.props} /> }
+            
+        </>
+        
     }
 }
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login,
+    profile: state.profilePage.profile
 });
 
-export default connect(mapStateToProps, {setAuthUserData})(HeaderContainer);
+export default connect(mapStateToProps, {auth, toggleFollowingProgress })(HeaderContainer);
