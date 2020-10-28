@@ -13,9 +13,7 @@ class HeaderContainer extends React.Component {
     }
  
     render()
-   
-    {console.log("isFetching",this.props.isFetching);
-        return <>
+       {        return <>
             
             { this.props.isFetching ? <Preloader /> : <Header {...this.props} /> }
             
