@@ -41,6 +41,7 @@ export const profileAPI = {
 };
 
 export const authAPI = {
+
   me() {
     return instance.get(`auth/me`);
   },
@@ -51,3 +52,4 @@ export const authAPI = {
     return instance.delete(`auth/login`);
   },
 };
+
